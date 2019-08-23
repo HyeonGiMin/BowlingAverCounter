@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <title>감사일기 - 가입</title>
+  <title>땡스피드 - 로그인</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -21,7 +21,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="/">환영합니다!</a>
+              <a class="navbar-brand" href="/">로그인</a>
           </div>
   
           <!-- Collect the nav links, forms, and other content for toggling -->
@@ -33,10 +33,10 @@
                   <li>
                       <a href="/mypage.html">마이페이지</a>
                   </li>
-                  <li class="active">
+                  <li>
                       <a id="joinmenu" href="/join.html">가입</a>
                   </li>
-                  <li>
+                  <li class="active">
                       <a id="loginmenu" href="/login.html">로그인</a>
                   </li>
  
@@ -54,30 +54,24 @@
  
   <!-- 네비게이션 바 끝 -->
  
- 
 <!-- 가입 폼 시작 -->
 <div class="container">
-    <h1>환영합니다!</h1>
+        <h1>로그인 해주세요!</h1>
  
-    <div class="form-group">
-      <label for="email">Email address:</label>
-      <input type="email" class="form-control" id="email">
+        <div class="form-group">
+          <label for="email">Email address:</label>
+          <input type="email" class="form-control" id="email">
+        </div>
+    
+        <div class="form-group">
+          <label for="pwd">Password:</label>
+          <input type="password" class="form-control" id="pwd">
+        </div>
+    
+        <button type="button" class="btn btn-default login">로그인</button>
+ 
     </div>
- 
-    <div class="form-group">
-            <label for="name">NicName:</label>
-            <input type="text" class="form-control" id="name">
-    </div>
- 
-    <div class="form-group">
-      <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="pwd">
-    </div>
- 
-    <button type="button" class="btn btn-default join">가입</button>
- 
-</div>
-<!-- 가입 폼 끝 -->
+    <!-- 가입 폼 끝 -->
  
  
  <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -92,6 +86,7 @@
  
      var firebaseEmailAuth; //파이어베이스 email 인증 모듈 전역변수
      var firebaseDatabase; //파이어베이스 db 모듈 전역변수
+     var userInfo; //가입한 유저의 정보. object 타입
    // Your web app's Firebase configuration
    var firebaseConfig = {
      apiKey: "AIzaSyDrtQ9p6YXUJOmNgh1NfOQb7FJ_3gIVn7E",
@@ -109,86 +104,51 @@
     firebaseEmailAuth = firebase.auth();
     firebaseDatabase = firebase.database();
     var isAdduser = false ;
-$(document).ready(function(){
-//가입버튼 눌렀을 때 작동하는 함수
-
-$(document).on('click','.join',function(){
-//jquery를 이용해서 입력된 값을 가져온다.
-
-var email = $('#email').val();
-var password = $('#pwd').val();
-var Name = $('#name').val();
-//이메일로 가입 버튼 눌렀을 때 작동되는 함수 - firebase 인증 모듈
-
-isAdduser = true ;
-
-firebaseEmailAuth.createUserWithEmailAndPassword(email, password).catch(function(error) {
-// Handle Errors here.
-var errorCode = error.code;
-var errorMessage = error.message;
-// [START_EXCLUDE]
-if (errorCode === 'auth/wrong-password') {
-alert('Wrong password.');
-} else {
-alert(errorMessage);
-}
-console.log(error);
-isAdduser = false ;
-// document.getElementById('quickstart-sign-in').disabled = false;
-// [END_EXCLUDE]
-});
-
-});});
-
-
-
-
-/**
-* initApp handles setting up UI event listeners and registering Firebase auth listeners:
-* - firebase.auth().onAuthStateChanged: This listener is called when the user is signed in or
-* out, and that is where we update the UI.
-*/
-function initApp() {
-// Listening for auth state changes.
-// [START authstatelistener]
-firebase.auth().onAuthStateChanged(function(user) {
-// [START_EXCLUDE silent]
-// [END_EXCLUDE]
-if (user && isAdduser ) {
-// User is signed in.
-
-var ref = firebaseDatabase.ref("users/"+ user.uid); //저장될 곳을 users라는 부모 키를 레퍼런스로 지정.
-
-console.log(user.uid);
-var Name = $('#name').val();
-
-//저장 형식
-var obj = {Name: Name};
-
-ref.set(obj); // 고유한 자식 키가 하나 생셩이 되면서 json 삽입
-console.log(obj);
-
-alert("가입성공");
-
-window.location.href = "/index.html"
-
-// [END_EXCLUDE]
-} else {
-// User is signed out.
-// [START_EXCLUDE]
-// [END_EXCLUDE]
-}
-// [START_EXCLUDE silent]
-// [END_EXCLUDE]
-});
-// [END authstatelistener]
-}
-
-window.onload = function() {
-initApp();
-};
-  </script>
  
+    //제이쿼리를 사용한다.
+    $(document).ready(function(){
+      
+      //가입버튼 눌렀을 때
+      $(document).on('click','.login',function(){
+        
+        //제이쿼리 선택자와 val() 함수를 이용해서 이메일,비밀번호 값을 가져온다. 
+        var email = $('#email').val();
+        var password = $('#pwd').val();
+        alert("로그인 버튼 눌렸음" + email +":"+ password);
+    
+    //파이어베이스 이메일 로그인 함수
+    firebaseEmailAuth.signInWithEmailAndPassword(email, password)
+   .then(function(firebaseUser) {
  
+       //성공하면 firebaseUser에 유저 정보 값이 담겨 넘어온다.
+       loginSuccess(firebaseUser);
+ 
+   })
+  .catch(function(error) {
+       // 실패했을 때 에러 처리
+       alert(error);
+       alert("로그인 실패");
+  });
+    
+      });
+    });
+    
+    //로그인 성공했을 때
+    function loginSuccess(firebaseUser){
+       alert("로그인 성공");
+ 
+    //로그인 성공한 유저 id 확인해 보기 - firebase database에 접근해서 데이터 조회 하는 함수
+   firebaseDatabase.ref("users/"+firebaseUser.uid).once('value').then(function(snapshot){
+        alert(snapshot.val().name)
+    });
+ 
+    //메인 페이지로 이동
+    window.location.href = "/index.html"
+    }
+ 
+    
+    </script>
+ 
+   
 </body>
 </html>
