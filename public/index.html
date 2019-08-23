@@ -1,65 +1,138 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
-
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/6.4.0/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/6.4.0/firebase-auth.js"></script>
-    <script defer src="/__/firebase/6.4.0/firebase-database.js"></script>
-    <script defer src="/__/firebase/6.4.0/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/6.4.0/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
-
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+<html lang="ko">
+ 
+<head>
+  <title>감사일기</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ 
+ 
+</head>
+ 
+<body>
+ 
+  <!-- 네비게이션 바 시작 -->
+  <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                  aria-expanded="false">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/">땡스피드게시판</a>
+          </div>
+  
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                  <li class="active">
+                      <a href="/">Home</a>
+                  </li>
+                  <li>
+                      <a href="/mypage.html">마이페이지</a>
+                  </li>
+                  <li>
+                      <a id="joinmenu" href="/join.html">가입</a>
+                  </li>
+                  <li>
+                      <a id="loginmenu" href="/login.html">로그인</a>
+                  </li>
+ 
+              </ul>
+          </div>
+          <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container-fluid -->
+  </nav>
+<br>
+<br>
+<br>
+<br>
+<br>
+ 
+  <!-- 네비게이션 바 끝 -->
+ 
+ 
+ 
+  <!-- 점보트론 시작 -->
+  <div class="container">
+    <div class="jumbotron">
+      <h1>
+        <span style="color:white">당신의 생각을 말해줘요.</span>
+      </h1>
+      <p>
+        <span style="color:white">땡스피드는 오늘 하루 있었던 즐거운일, 감사한일, 행복한일을 적으며 하루를 마무리하는 게시판입니다.</span>
+      </p>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+  </div>
+  <br>
+  <!-- 점보트론 끝 -->
+ 
+ 
+  <!-- 쓰기 텍스트 필드 시작-->
+  <div class="container">
+    <div class="form-group">
+      <label for="comment">오늘의 감사:</label>
+      <textarea class="form-control" rows="5" id="comment" placeholder="오늘 하루 감사한일을 적어보세요:)"></textarea>
+      <br>
+ 
+      <!-- 쓰기 버튼 가운데 정렬 -->
+      <div class="text-center">
+        <button type="button" class="btn btn-success write" id="write" name="write">쓰기</button>
+      </div>
+    </div>
+  </div>
+  <!-- 쓰기 텍스트 필드 끝-->
+ 
+ 
+ 
+  <!-- 감사리스트 출력하기-->
+  <div class="container">
+    <hr>
+    <h3>감사리스트</h3>
+    <br>
+    <!-- 감사 리스트 붙일 곳 -->
+    <div class="thanksList"></div>
+  </div>
+ 
+ 
+ <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.4.1/firebase-app.js"></script>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
 
-        try {
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
-  </body>
+<script>
+
+    var firebaseEmailAuth; //파이어베이스 email 인증 모듈 전역변수
+    var firebaseDatabase; //파이어베이스 db 모듈 전역변수
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDrtQ9p6YXUJOmNgh1NfOQb7FJ_3gIVn7E",
+    authDomain: "bowling-aver.firebaseapp.com",
+    databaseURL: "https://bowling-aver.firebaseio.com",
+    projectId: "bowling-aver",
+    storageBucket: "",
+    messagingSenderId: "934364146476",
+    appId: "1:934364146476:web:7855d38a47a0d59f"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  
+    //firebaseEmailAuth = firebase.auth();
+    //firebaseDatabase = firebase.database();
+</script>
+ 
+ 
+ 
+</body>
+ 
 </html>
