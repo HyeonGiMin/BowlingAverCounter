@@ -63,28 +63,31 @@
 
   <!--스크립트 부분. 자신의 스크립트 코드로 변경하세요! -->
   <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.4.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-database.js"></script>
   <script>
     var firebaseEmailAuth; //파이어베이스 email 인증 모듈 전역변수
 
     //파이어 베이스 초기화 코드
-    var config = {
-      apiKey: "AIzaSyA9oNOMkppw2zOBFItjcVvyZ--f1onvaOY",
-      authDomain: "thanksmemo-19012.firebaseapp.com",
-      databaseURL: "https://thanksmemo-19012.firebaseio.com",
-      projectId: "thanksmemo-19012",
-      storageBucket: "thanksmemo-19012.appspot.com",
-      messagingSenderId: "482108959359"
-    };
+    var firebaseConfig = {
+    apiKey: "AIzaSyDrtQ9p6YXUJOmNgh1NfOQb7FJ_3gIVn7E",
+    authDomain: "bowling-aver.firebaseapp.com",
+    databaseURL: "https://bowling-aver.firebaseio.com",
+    projectId: "bowling-aver",
+    storageBucket: "",
+    messagingSenderId: "934364146476",
+    appId: "1:934364146476:web:7855d38a47a0d59f"
+  };
     //파이어베이스 초기화
-    firebase.initializeApp(config);
+    firebase.initializeApp(firebaseConfig);
     //인증모듈 객체 가져오기
     firebaseEmailAuth = firebase.auth();
 
-//이 부분에 firebase 로그아웃 함수 삽입을 해주세요~~
-firebaseEmailAuth.signOut().then(function() {
-                //alert("로그아웃 되었습니다")
+        //이 부분에 firebase 로그아웃 함수 삽입을 해주세요~~
+        firebaseEmailAuth.signOut().then(function() {
+                alert("로그아웃 되었습니다")
                 //메인 페이지로 이동시키고 세션 저장시키기
-                 window.location.href = "/index.html"
+             //    window.location.href = "/index.html"
                  
         }).catch(function(error) {
         if(error){
