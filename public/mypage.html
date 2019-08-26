@@ -233,45 +233,31 @@
             alert(comment);
             //수정 버튼을 눌러서 fileButton 객체가 생기면~! 작동
             if (fileButton) {
-                alert(loginUserKey)
                 //fileButton.addEventListener('change', function (e) {
                 console.log("fileButton.addEventListener('change', function(e){ 함수 호출 - 들어왔습니다");
-                var file = fileButton.files[0];
+               // var file = fileButton.files[0];
                 //현재 유저 키를 파일이름으로 지정
-                var storageRef = firebase.storage().ref(loginUserKey);
-                var task = storageRef.put(file);
+             //   var storageRef = firebase.storage().ref(loginUserKey);
+            //   var task = storageRef.put(file);
                 // #.핵심
                 //이곳에서 파이어베이스 스토리지에도 저장해주고, 데이터베이스에도 저장해줘야 함.
                 //유저키(부모키)를 레퍼런스로 잡고 url 추가해줌 userSessionCheck() 먼저 실행
                 //사진을 업데이트 하고 현재 상태글 업데이트 하고, 다시 불러오기
                 //비동기 방식으로 움직임
                 //최종완료되었을때 이곳에서 끝난다
-                task.then(function (snapshot) {
-                    url = snapshot.downloadURL;
-                    console.log("파이어베이스 스토리지에 저장된 주소 =  " + url);
-                    //파이어베이스에 이미지를 저장한후 그 url을 바로 가져와서 img 태그에 적용해줌
-                    document.querySelector('#myimage').src = url;
+                document.querySelector('#myimage').src = url;
 
-                    //여기에 user 레퍼런스에 사진 url 저장
-                    //선택된 키가 있으면 수정
-                    userRef = firebaseDatabase.ref('users/' + loginUserKey);
-                    var obj={
-                        createtime: currentTime,
-                        Name: name,
-                        imgURl: url,
-                        comment: comment
-                    }
-                    userRef.update(obj);
-                    console.log("파이어베이스 데이터베이스 user 레퍼런스에 성공적으로 저장 완료");
+                //여기에 user 레퍼런스에 사진 url 저장
+                //선택된 키가 있으면 수정
+                userRef = firebaseDatabase.ref('users/' + loginUserKey);
+                userRef.update({
+                    createtime: currentTime,
+                    Name: name,
+                    comment: comment
+                });
+                console.log("파이어베이스 데이터베이스 user 레퍼런스에 성공적으로 저장 완료");
                     alert("성공적으로 변경되었습니다.")
 
-                })
-                    .catch(function (error) {
-                        console.error(error);
-                        return;
-                    });
-
-                //});
 
             }
             return true;
