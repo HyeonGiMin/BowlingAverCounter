@@ -2,14 +2,12 @@
 <html lang="ko">
 
 <head>
-  <title>감사일기</title>
+  <title id="titleCheck">참평안교회 볼링 선교회</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<!--현재 시간을 가져오는 js 파일 -->
-<script src="./js/time.js"></script>
 
 </head>
 
@@ -27,7 +25,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="/">땡스피드게시판</a>
+              <a class="navbar-brand" href="/">참평안교회 볼링 AVER 페이지</a>
           </div>
   
           <!-- Collect the nav links, forms, and other content for toggling -->
@@ -36,9 +34,13 @@
                   <li class="active">
                       <a href="/">Home</a>
                   </li>
+                 
                   <li>
-                      <a href="/mypage.html">마이페이지</a>
-                  </li>
+                    <a href="/mypage.html">마이페이지</a>
+                </li>
+                <li>
+                  <a href="#">사진</a>
+              </li>   
                   <li>
                       <a id="joinmenu" href="/join.html">가입</a>
                   </li>
@@ -66,10 +68,10 @@
   <div class="container">
     <div class="jumbotron">
       <h1>
-        <span style="color:white">당신의 생각을 말해줘요.</span>
+        <span style="color:white">참평안 교회<br> 볼링선교회</span>
       </h1>
       <p>
-        <span style="color:white">땡스피드는 오늘 하루 있었던 즐거운일, 감사한일, 행복한일을 적으며 하루를 마무리하는 게시판입니다.</span>
+        <span style="color:white">에버리지 게시판 입니다.</span>
       </p>
     </div>
   </div>
@@ -80,8 +82,8 @@
  <!-- 쓰기 텍스트 필드 시작-->
  <div class="container">
   <div class="form-group">
-    <label for="comment">오늘의 감사:</label>
-    <textarea class="form-control" rows="5" id="comment" placeholder="오늘 하루 감사한일을 적어보세요:)"></textarea>
+    <label for="comment">오늘의 점수:</label>
+    <textarea class="form-control" rows="5" id="comment" placeholder="스코어를 입력하세요:)"></textarea>
     <br>
 
     <!-- 쓰기 버튼 가운데 정렬 -->
@@ -101,7 +103,9 @@
     <!-- 감사 리스트 붙일 곳 -->
     <div class="thanksList"></div>
   </div>
-
+<!--현재 시간을 가져오는 js 파일 -->
+<script src="./js/time.js"></script>
+<script src="./js/sessionCheck.js"></script>
  <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/6.4.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.4.1/firebase-auth.js"></script>
@@ -136,42 +140,7 @@
     userSessionCheck();
   
 
-    //유저가 로그인 했는지 안했는지 확인해주는 함수
-    function userSessionCheck() {
-      console.log(currentTime);
-      //로그인이 되어있으면 - 유저가 있으면, user를 인자값으로 넘겨준다.
-      firebaseEmailAuth.onAuthStateChanged(function (user) {
-        
-        if (user) {
-          //조회 - 데이터 베이스에 저장된 닉네임을 현재 접속되어 있는 user의 pk key 값을 이용해서 가져오기
-          firebaseDatabase.ref("users/" + user.uid).once('value').then(function (snapshot) {
-            
-            //자바스크립트 dom 선택자를 통해서 네비게이션 메뉴의 엘리먼트 변경해주기
-            document.getElementById("loginmenu").textContent = "로그아웃";
-            document.getElementById("loginmenu").href = "/logout.html";
-            document.getElementById("joinmenu").textContent = "반가워요! " + snapshot.val().Name + " 님";
-            document.getElementById("joinmenu").href = "#";
-
-      
-            name = snapshot.val().Name;   //유저 닉네임은 계속 쓸거기 때문에 전역변수로 할당
-            loginUserKey = snapshot.key;  //로그인한 유저의 key도 계속 쓸 것이기 때문에 전역변수로 할당
-            userInfo = snapshot.val(); //snapshot.val()에 user 테이블에 있는 해당 개체 정보가 넘어온다. userInfo에 대입!
-            
-
-            //alert(userInfo.userid);  //uid는 db에서 user 테이블의 각 개체들의 pk 인데, 이 값은 인증에서 생성된 아이디의 pk 값과 같다. *중요!
-          //감사리스트 호출
-            thanksList();
-            return true
-         
-          });
-
-        } else {
-                $('#comment').val("로그인 하시면 사람들의 감사 리스트를 보실 수 있습니다. 로그인 해주실꺼죠^^?");
-          return false
-        }
-      });
-    }
-
+   
     $(document).ready(function () {
  
  //메인화면 감사일기 쓰기버튼 눌렀을 때
