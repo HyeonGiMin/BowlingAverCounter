@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-    <title id="titleCheck">볼링선교회 - 마이페이지</title>
+    <title id="titleCheck">mypage</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -25,7 +24,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">참평안교회 볼링 AVER 페이지</a>
+                <a class="navbar-brand" href="/">마이페이지</a>
             </div>
     
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -36,7 +35,7 @@
                     </li>
                     <li class="active">
                         <a href="/mypage.html">마이페이지</a>
-                    </li>
+                    </li>  
                     <li>
                         <a id="joinmenu" href="/join.html">가입</a>
                     </li>
@@ -78,6 +77,7 @@
                 </div>
             </div>
             <br>
+        <br>
 
             <div align="right">
                 <button id="changeBtn" type="button" class="btn btn-warning">수정하기</button>
@@ -90,7 +90,7 @@
         <!-- 감사리스트 출력하기-->
         <div class="container">
 
-            <h3>나의 점수리스트</h3>
+            <h3>나의 감사리스트</h3>
             <br>
             <!-- 감사 리스트 붙일 곳 -->
             <div class="thanksList"></div>
@@ -106,42 +106,46 @@
     
 <!--현재 시간을 가져오는 js 파일 -->
   <script src="./js/time.js"></script>
-  <script src="./js/sessionCheck.js"></script>
-   <!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/6.4.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/6.4.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-database.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-storage.js"></script>
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#config-web-app -->
 
-<script>
+<!--login유무 session js 파일 -->
+<script src="./js/sessionCheck.js"></script>  
 
-    var firebaseEmailAuth; //파이어베이스 email 인증 모듈 전역변수
-    var firebaseDatabase; //파이어베이스 db 모듈 전역변수
-
-    var name; //유저 이름
+  <!--스크립트 부분. 자신의 스크립트 코드로 변경하세요! -->
+  <script src="https://www.gstatic.com/firebasejs/6.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-storage.js"></script>
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#config-web-app -->
+  
+  <script>
+  
+      var total=0;
+      var count=0;
+      var firebaseEmailAuth; //파이어베이스 email 인증 모듈 전역변수
+      var firebaseDatabase; //파이어베이스 db 모듈 전역변수
+      var name; //유저 이름
     var loginUserKey; //로그인한 유저의 부모 key
     var userInfo; //로그인한 유저의 정보 object type
     var comment; //유저가 쓴글 내용 저장
     var url; //사진이 저장될 url
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyDrtQ9p6YXUJOmNgh1NfOQb7FJ_3gIVn7E",
-    authDomain: "bowling-aver.firebaseapp.com",
-    databaseURL: "https://bowling-aver.firebaseio.com",
-    projectId: "bowling-aver",
-    storageBucket: "bowling-aver.appspot.com",
-    messagingSenderId: "934364146476",
-    appId: "1:934364146476:web:7855d38a47a0d59f"
-  };
- //파이어베이스 초기화
- firebase.initializeApp(firebaseConfig);
-    //인증모듈 객체 가져오기
-     //인증모듈 객체 가져오기
-     firebaseEmailAuth = firebase.auth();
-    //데이터베이스 모듈객체 가져오기
-    firebaseDatabase = firebase.database();
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyDrtQ9p6YXUJOmNgh1NfOQb7FJ_3gIVn7E",
+      authDomain: "bowling-aver.firebaseapp.com",
+      databaseURL: "https://bowling-aver.firebaseio.com",
+      projectId: "bowling-aver",
+      storageBucket: "bowling-aver.appspot.com",
+      messagingSenderId: "934364146476",
+      appId: "1:934364146476:web:7855d38a47a0d59f"
+    };
+   //파이어베이스 초기화
+   firebase.initializeApp(firebaseConfig);
+      //인증모듈 객체 가져오기
+      firebaseEmailAuth = firebase.auth();
+      //데이터베이스 모듈객체 가져오기
+      firebaseDatabase = firebase.database();
+      
 
     </script>
 
@@ -149,9 +153,11 @@
         $(document).ready(function () {
             //세션체크 함수먼저 호출!
             userSessionCheck();
-            setTimeout(function(){
-                myScoreList();
-            },1000);
+            setTimeout(function() {
+                //내가쓴 글만 가져오는 함수
+                myThanksList();
+            }, 1000);
+
 
         });
         
@@ -159,52 +165,6 @@
         $(document).on('click', '#changeBtn', function () {
                 changeButtonAction();
         });
-        
-        function myScoreList() {
-            console.log("땡스 리스트 함수안으로 들어왔습니다")
- 
-            var thanksRef = firebaseDatabase.ref('score');
-            //조회
-            thanksRef.on('child_added', on_score_list)
-        }
-         //땡스리스트 thanks 테이블의 thanks 키 들을 연속적으로 가져온다.
-         function on_score_list(data) {
-            console.log("on_thanks_list() 함수안으로 들어왔습니다 리스트를 가져오겠습니다")
-            //글 게수만큼 반복된다.
-            //alert(loginUserKey);
-            //alert(data.val().userkey);
-            //헌재 로그인한 유저의 key와 감사리스트 객체의 user key가 일치하는 것 만 가져오기
-            if (loginUserKey == data.val().userkey) {
-                var key = data.key;
-                var Data = data.val();
-                var thankComment = Data.score;
-                var createtime = Data.createtime;
-                var name = Data.name;
-                var userkey = Data.userkey;
- 
-               
- 
-                var mod_btn_key = key + "mod_btn"
- 
-                //감사리스트 동적으로 붙이기
-                var html =
-                    "<div class=\"media\">" +
-                    "<div class=\"media-body\">" +
-                    "<h4 class=\"media-heading\">" + name +
-                    " <span STYLE=\"color: green; font-size: 5pt\">" + createtime + "</span></h4>" +
-                    "<div id='" + key + "'><p>" + thankComment + "</p></div></div>" +
-                    "<div align=\"right\" id='" + mod_btn_key + "'>" +
-                    "<button type=\"button\" class=\"btn btn-warning modify\" id='" + mod_btn_key + "' onclick=\"btn_modify('" + key + "')\">수정</button>" +
-                    " " +
-                    "<button type=\"button\" class=\"btn btn-danger\" onclick=\"btn_delete('" + key + "')\">삭제</button>" +
-                    "</div></div>" +
-                    "<hr>";
- 
- 
-                $(".thanksList").append(html);
-            }
-        }
-
 
         //수정, 저장하기 버튼 눌렀을 때 작동하는 함수
         function changeButtonAction(){
@@ -263,7 +223,6 @@
                         console.log("할줄메시지가 들어있는 p 태그 활성화");
 
                         changeBtn.textContent = "수정하기"
-                
                         changeBtn.className = "btn btn-default";
 
                         console.log("저장되었습니다");
@@ -272,6 +231,8 @@
             }
         }
 
+
+        //이미지와 한줄글 최종 저장하는 함수!
         function imageStateMsgAllSave() {
             console.log("imageStateMsgAllSave로 들어왔습니다");
 
@@ -335,6 +296,54 @@
             }
             return true;
         }
+
+     //감사리스트 가져오기
+     function myThanksList() {
+            console.log("땡스 리스트 함수안으로 들어왔습니다")
+ 
+            var thanksRef = firebaseDatabase.ref('score');
+            //조회
+            thanksRef.on('child_added', on_thanks_list)
+        }
+
+ //땡스리스트 thanks 테이블의 thanks 키 들을 연속적으로 가져온다.
+ function on_thanks_list(data) {
+            console.log("on_thanks_list() 함수안으로 들어왔습니다 리스트를 가져오겠습니다")
+            //글 게수만큼 반복된다.
+            alert(loginUserKey);
+            alert(data.val().userkey);
+            //헌재 로그인한 유저의 key와 감사리스트 객체의 user key가 일치하는 것 만 가져오기
+            if (loginUserKey == data.val().userkey) {
+                var key = data.key;
+                var Data = data.val();
+                var thankComment = Data.score;
+                var createtime = Data.createtime;
+                var name = Data.name;
+                var userkey = Data.userkey;
+ 
+               
+ 
+                var mod_btn_key = key + "mod_btn"
+ 
+                //감사리스트 동적으로 붙이기
+                var html =
+                    "<div class=\"media\">" +
+                    "<div class=\"media-body\">" +
+                    "<h4 class=\"media-heading\">" + name +
+                    " <span STYLE=\"color: green; font-size: 5pt\">" + createtime + "</span></h4>" +
+                    "<div id='" + key + "'><p>" + thankComment + "</p></div></div>" +
+                    "<div align=\"right\" id='" + mod_btn_key + "'>" +
+                    "<button type=\"button\" class=\"btn btn-warning modify\" id='" + mod_btn_key + "' onclick=\"btn_modify('" + key + "')\">수정</button>" +
+                    " " +
+                    "<button type=\"button\" class=\"btn btn-danger\" onclick=\"btn_delete('" + key + "')\">삭제</button>" +
+                    "</div></div>" +
+                    "<hr>";
+ 
+ 
+                $(".thanksList").append(html);
+            }
+        }
+
 
     </script>
 

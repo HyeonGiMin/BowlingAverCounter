@@ -38,9 +38,11 @@
                   <li>
                     <a href="/mypage.html">마이페이지</a>
                 </li>
-                <li>
-                  <a href="#">사진</a>
-              </li>   
+                <!--
+              <li>
+                 <a href="/picture.html">사진</a>
+              </li>  
+              --> 
                   <li>
                       <a id="joinmenu" href="/join.html">가입</a>
                   </li>
@@ -77,8 +79,15 @@
   </div>
   <br>
   <!-- 점보트론 끝 -->
-
-
+  <div class="container">
+    <table class="scoretable">
+      <tr>
+        <td>이름</td>
+        <td>에버</td>
+      </tr>
+    </table>
+  </div>
+  <br>
  <!-- 쓰기 텍스트 필드 시작-->
  <div class="container">
   <div class="form-group">
@@ -98,7 +107,7 @@
   <!-- 감사리스트 출력하기-->
   <div class="container">
     <hr>
-    <h3>감사리스트</h3>
+    <h3>점수 기록 리스트</h3>
     <br>
     <!-- 감사 리스트 붙일 곳 -->
     <div class="thanksList"></div>
@@ -138,8 +147,7 @@
     
     //세션 체크 함수
     userSessionCheck();
-  
-
+ 
    
     $(document).ready(function () {
  
@@ -191,6 +199,9 @@
           var thanksRef = firebaseDatabase.ref('score');
           //on 함수로 글 목록가져오기
           thanksRef.on('child_added', on_thanks_list)
+          var avgRef = firebaseDatabase.ref('avg');
+           avgRef.on('child_added', on_avg_list)
+
       }else{
         
         return;
@@ -223,6 +234,30 @@
         "<hr>";
 
       $(".thanksList").append(html);
+
+    }
+
+    function on_avg_list(data) {
+      console.log("on_thanks_list() 함수안으로 들어왔습니다 리스트를 가져오겠습니다")
+      var key = data.key;
+
+      var Data = data.val();
+      var comment = Data.score;
+      var createtime = Data.createtime;
+      var name = Data.name;
+      var userkey = Data.userkey;
+
+      //무슨값이 넘어오는지 찍어보세요
+      alert(comment +"/"+ createtime + "/"+name +"/"+userkey);
+
+      total=parseInt(comment)+total;
+      alert(total);
+      //감사리스트 동적으로 붙이기
+      var html =
+        "<tr>"+
+        "<td>" + name + "</td>" +
+        "<td>" +comment+"</td></tr>"
+      $(".scoretable").append(html);
 
     }
 
