@@ -1,11 +1,118 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+<html lang="ko">
+
+<head>
+  <title id="titleCheck">참평안교회 볼링 선교회</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+<!-- 네비게이션 바 시작 -->
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+              aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">참평안교회 볼링 AVER 페이지</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active">
+          <a href="/">Home</a>
+        </li>
+
+        <li>
+          <a href="/mypage.html">마이페이지</a>
+        </li>
+        <!--
+      <li>
+         <a href="/picture.html">사진</a>
+      </li>
+      -->
+        <li>
+          <a id="joinmenu" href="/join.html">가입</a>
+        </li>
+        <li>
+          <a id="loginmenu" href="/login.html">로그인</a>
+        </li>
+
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container-fluid -->
+</nav>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<!-- 네비게이션 바 끝 -->
+
+
+
+<!-- 점보트론 시작 -->
+<div class="container">
+  <div class="jumbotron">
+    <h1>
+      <span style="color:white">참평안 교회<br> 볼링선교회</span>
+    </h1>
+    <p>
+      <span style="color:white">에버리지 게시판 입니다.</span>
+    </p>
+  </div>
+</div>
+<br>
+<!-- 점보트론 끝 -->
+<div class="container">
+  <table class="scoretable">
+    <tr>
+      <td>이름</td>
+      <td>에버</td>
+    </tr>
+  </table>
+</div>
+<br>
+<!-- 쓰기 텍스트 필드 시작-->
+<div class="container">
+  <div class="form-group">
+    <label for="comment">오늘의 점수:</label>
+    <textarea class="form-control" rows="5" id="comment" placeholder="스코어를 입력하세요:)"></textarea>
+    <br>
+
+    <!-- 쓰기 버튼 가운데 정렬 -->
+    <div class="text-center">
+      <button type="button" class="btn btn-success write" id="write" name="write">쓰기</button>
+    </div>
+  </div>
+</div>
+<!-- 쓰기 텍스트 필드 끝-->
+
+
+<!-- 감사리스트 출력하기-->
+<div class="container">
+  <hr>
+  <h3>점수 기록 리스트</h3>
+  <br>
+  <!-- 감사 리스트 붙일 곳 -->
+  <div class="thanksList"></div>
+</div>
+
+</body>
+
 </html>
