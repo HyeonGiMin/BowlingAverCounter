@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var mysql=require('mysql');
+let jwt = require("jsonwebtoken");
 let secretObj = require("../config/jwt");
-
+const {Person} =require('../models');
 
 const client=mysql.createConnection({
   host:'http://hyeoni1995.synology.me',
@@ -22,7 +23,17 @@ router.get('/', function(req, res, next) {
       {
         expiresIn: '5m'    // 유효 시간은 5분
       })
-  res.cookie("user", token);
+
+    Person.findAll().then((memo)=>{
+
+
+        var test3=JSON.stringify(memo);
+        console.log(memo[0].email)
+
+
+           res.json(memo);
+        })
+
   /*client.query('select devID,manu,nickname from device_info(error,result)=>{
     if(error){
       res.render('error')
@@ -34,7 +45,7 @@ router.get('/', function(req, res, next) {
   })
   */
 
-  res.render('index', { title: 'Express' });
+ // res.render('index', { title: 'Express' });
 });
 
 module.exports = router;
