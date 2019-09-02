@@ -1,3 +1,4 @@
+//mysql 모듈을 이용해 직접 연결
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
     host     : 'localhost',    // 호스트 주소

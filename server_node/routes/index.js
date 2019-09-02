@@ -24,25 +24,16 @@ router.get('/', function(req, res, next) {
         expiresIn: '5m'    // 유효 시간은 5분
       })
 
+
     Person.findAll().then((memo)=>{
 
-
-        var test3=JSON.stringify(memo);
         console.log(memo[0].email)
 
 
-           res.json(memo);
+      //     res.json(memo);
         })
 
-    let token2 = req.cookies.user;
 
-    let decoded = jwt.verify(token2, secretObj.secret);
-    if(decoded){
-        res.send("권한이 있어서 API 수행 가능")
-    }
-    else{
-        res.send("권한이 없습니다.")
-    }
 
   /*client.query('select devID,manu,nickname from device_info(error,result)=>{
     if(error){
@@ -54,8 +45,25 @@ router.get('/', function(req, res, next) {
     }
   })
   */
-
- // res.render('index', { title: 'Express' });
+  res.cookie('user',token,{
+      maxAge: 30000   // 30000밀리초 → 30초
+  });
+ res.render('index', { title: 'Express' });
 });
 
+router.get('/text',function(req,res){
+    console.log("text'");
+    let token2 = req.cookies.user
+console.log(token2)
+    console.log(secretObj.secret)
+    let decoded = jwt.verify(token2, secretObj.secret);
+    console.log(decoded)
+    if(decoded){
+        res.send("권한이 있어서 API 수행 가능")
+    }
+    else{
+        res.send("권한이 없습니다.")
+    }
+
+})
 module.exports = router;
