@@ -34,6 +34,16 @@ router.get('/', function(req, res, next) {
            res.json(memo);
         })
 
+    let token2 = req.cookies.user;
+
+    let decoded = jwt.verify(token2, secretObj.secret);
+    if(decoded){
+        res.send("권한이 있어서 API 수행 가능")
+    }
+    else{
+        res.send("권한이 없습니다.")
+    }
+
   /*client.query('select devID,manu,nickname from device_info(error,result)=>{
     if(error){
       res.render('error')
