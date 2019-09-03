@@ -1,18 +1,23 @@
 module.exports =(sequelize, DataTypes) => {
     //.define('테이블명',{ 속성명{ 속성값}....}
-    return sequelize.define('person', {
-        num: {
+    return sequelize.define('user', {
+        name: {
             type: DataTypes.STRING(20),
             allowNull: false,
             unique: true,
         },
-        name: {
-            type: DataTypes.STRING(20),
+        score: {
+            type: DataTypes.INTEGER,
             allowNull: true,
             unique: true,
         },
-        email: {
+        password: {
             type: DataTypes.STRING(20),
+            allowNull: false,
+            unique: true,
+        },
+        average: {
+            type: DataTypes.INTEGER,
             allowNull: true,
             unique: true,
         },
