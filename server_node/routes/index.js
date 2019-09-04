@@ -7,6 +7,7 @@ let passObj=require("../config/password");
 const { User } = require('../models');
 const {GameLists} =require('../models');
 const crypto=require('crypto');
+var indexRouter=require('./users');
 
 const client=mysql.createConnection({
   host:'http://hyeoni1995.synology.me',
@@ -15,6 +16,8 @@ const client=mysql.createConnection({
   password:'Aquea6725!',
   database:"bowl"
 })
+
+router.use('/user/test', indexRouter);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -56,6 +59,7 @@ router.get('/', function(req, res, next) {
 
     User.create({
         name: "민현기",
+        email:"test@test.com",
         score:"100",
         average:"100",
         password: cipheredOutput
@@ -98,4 +102,44 @@ router.get('/text',function(req,res){
 
 
 })
+
+router.post('/login',(req,res)=>{
+    var body=req.body;
+    var email=body.email
+    var passwd=body.pwd;
+    console.log(body)
+    console.log(email)
+    console.log(passwd)
+
+
+    User.findAll({
+        where: {
+            id: email
+        }
+    }).then((data)=>{
+
+        var cipher=crypto.createCipher(passObj.Cipher,passObj.secret);
+        cipher.update(   data[0].password,'utf8',passObj.Decipher)
+        var cipheredOutput=cipher.final(passObj.Decipher);
+
+        console.log(cipheredOutput)
+        if(passwd==cipheredOutput){
+            res.json({
+                "result_code":200
+            })
+        }else{
+            res.json({
+                "result_code":500
+            })
+        }
+
+    })
+
+})
+
+router.get('/login',(req,res)=>{
+    res.render('login');
+})
+
+
 module.exports = router;
