@@ -17,13 +17,27 @@ const client=mysql.createConnection({
   database:"bowl"
 })
 
-router.use('/user/test', indexRouter);
+//router.use('/user', indexRouter);
 
 /* GET home page. */
+router.get('/user',(req,res)=>{
+    var token = req.headers.authorization.split('.')
+
+   // let token = req.cookies.user;
+    console.log(token)
+    let decoded = jwt.verify(token, secretObj.secret);
+    if(decoded){
+        console.log(decoded)
+        res.send('respond with a resource');
+    }
+    else{
+        res.send("권한이 없습니다.")
+    }
+})
 router.get('/', function(req, res, next) {
 
   let token = jwt.sign({
-        email: "foo@example.com"   // 토큰의 내용(payload)
+        name: "test" // 토큰의 내용(payload)
       },
       secretObj.secret ,    // 비밀 키
       {
@@ -55,7 +69,7 @@ router.get('/', function(req, res, next) {
 
     var cipher=crypto.createCipher(passObj.Cipher,passObj.secret);
     cipher.update(password,'utf8',passObj.Decipher)
-    var cipheredOutput=cipher.final("base64");
+    var cipheredOutput=cipher.final(passObj.Decipher);
 
     User.create({
         name: "민현기",
@@ -65,7 +79,7 @@ router.get('/', function(req, res, next) {
         password: cipheredOutput
     });
 
-  res.cookie('user',token,{
+  res.cookie("user",token,{
       maxAge: 30000   // 30000밀리초 → 30초
   });
  res.render('index', { title: 'Express' });
@@ -114,17 +128,22 @@ router.post('/login',(req,res)=>{
 
     User.findAll({
         where: {
-            id: email
+            email: email
         }
     }).then((data)=>{
 
         var cipher=crypto.createCipher(passObj.Cipher,passObj.secret);
-        cipher.update(   data[0].password,'utf8',passObj.Decipher)
+        cipher.update(   passwd,'utf8',passObj.Decipher)
         var cipheredOutput=cipher.final(passObj.Decipher);
 
         console.log(cipheredOutput)
-        if(passwd==cipheredOutput){
+        console.log(passwd)
+        if(data[0].password==cipheredOutput){
+            res.cookie('user',data[0].name,{
+                maxAge: 30000   // 30000밀리초 → 30초
+            });
             res.json({
+                "user":data[0].name,
                 "result_code":200
             })
         }else{
